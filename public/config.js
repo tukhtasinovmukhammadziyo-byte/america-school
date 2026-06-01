@@ -1,5 +1,5 @@
 // config.js
-const API_BASE_URL = window.location.protocol === 'file:' || window.location.hostname === ''
+const API_BASE_URL = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === ''
     ? 'http://localhost:5000' 
-    : ''; // Bo'sh joy bo'lsa, relative path ishlatiladi (CORS va IP muammolarini yo'qotadi)
+    : 'https://american-school-backend.onrender.com';
 

@@ -71,54 +71,73 @@ def init_db():
         os.makedirs('data', exist_ok=True)
     
     conn = get_db_connection()
+    is_postgres = getattr(conn, 'is_postgres', False)
+    
     # Users Table
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            name TEXT,
-            phone TEXT,
-            role TEXT DEFAULT 'student',
-            course TEXT,
-            attendance INTEGER DEFAULT 0,
-            ielts TEXT DEFAULT '0',
-            teacher TEXT DEFAULT 'Yo''q'
-        )
-    ''')
+    try:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                name TEXT,
+                phone TEXT,
+                role TEXT DEFAULT 'student',
+                course TEXT,
+                attendance INTEGER DEFAULT 0,
+                ielts TEXT DEFAULT '0',
+                teacher TEXT DEFAULT 'Yo''q'
+            )
+        ''')
+        conn.commit()
+    except Exception as e:
+        if is_postgres:
+            conn.pg_conn.rollback()
+        raise e
     
     # Migration for existing databases
-    try:
-        conn.execute('ALTER TABLE users ADD COLUMN attendance INTEGER DEFAULT 0')
-    except:
-        pass
-    try:
-        conn.execute("ALTER TABLE users ADD COLUMN ielts TEXT DEFAULT '0'")
-    except:
-        pass
-    try:
-        conn.execute("ALTER TABLE users ADD COLUMN teacher TEXT DEFAULT 'Yo''q'")
-    except:
-        pass
+    migrations = [
+        ('ALTER TABLE users ADD COLUMN attendance INTEGER DEFAULT 0', 'attendance'),
+        ("ALTER TABLE users ADD COLUMN ielts TEXT DEFAULT '0'", 'ielts'),
+        ("ALTER TABLE users ADD COLUMN teacher TEXT DEFAULT 'Yo''q'", 'teacher')
+    ]
+    for query, col in migrations:
+        try:
+            conn.execute(query)
+            conn.commit()
+        except Exception:
+            if is_postgres:
+                conn.pg_conn.rollback()
 
     # Messages Table
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            room TEXT NOT NULL,
-            sender TEXT NOT NULL,
-            receiver TEXT NOT NULL,
-            text TEXT NOT NULL,
-            timestamp TEXT NOT NULL
-        )
-    ''')
+    try:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                room TEXT NOT NULL,
+                sender TEXT NOT NULL,
+                receiver TEXT NOT NULL,
+                text TEXT NOT NULL,
+                timestamp TEXT NOT NULL
+            )
+        ''')
+        conn.commit()
+    except Exception as e:
+        if is_postgres:
+            conn.pg_conn.rollback()
+
     # Settings Table (Simple Key-Value)
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS settings (
-            key TEXT PRIMARY KEY,
-            value TEXT
-        )
-    ''')
+    try:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS settings (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )
+        ''')
+        conn.commit()
+    except Exception as e:
+        if is_postgres:
+            conn.pg_conn.rollback()
     
     # Add default admin if not exists
     try:
@@ -126,5 +145,7 @@ def init_db():
                      ('admin', '123', 'Administrator', 'admin'))
         conn.commit()
     except Exception as e:
-        pass
+        if is_postgres:
+            conn.pg_conn.rollback()
     conn.close()
+
