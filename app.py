@@ -195,7 +195,7 @@ def signup():
 @app.route('/api/users', methods=['GET'])
 def get_users():
     conn = get_db_connection()
-    users = conn.execute('SELECT username, name, role, phone, course, attendance, ielts, teacher FROM users').fetchall()
+    users = conn.execute('SELECT id, username, name, role, phone, course, attendance, ielts, teacher FROM users').fetchall()
     conn.close()
     return jsonify([dict(u) for u in users])
 

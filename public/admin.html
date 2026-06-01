@@ -105,7 +105,7 @@
                                 <h2><i class="fas fa-envelope"></i> So'nggi so'rovlar</h2>
                             </div>
                             <div class="card-body">
-                                <ul class="recent-list">
+                                <ul class="recent-list" id="recent-requests-list">
                                     <li>
                                         <div class="user-img">A</div>
                                         <div class="user-details">
@@ -304,6 +304,85 @@
 
             </div>
         </main>
+    </div>
+
+
+    <!-- Add Student Modal -->
+    <div id="add-student-modal" class="admin-modal-overlay">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Yangi o'quvchi qo'shish</h3>
+                <button class="admin-modal-close" onclick="closeAddModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="add-student-form">
+                <div class="form-group">
+                    <label>To'liq ism-sharifi</label>
+                    <input type="text" id="add-name" required placeholder="Masalan: Azizbek M.">
+                </div>
+                <div class="form-group">
+                    <label>Telefon raqami (tizimga kirish logini bo'ladi)</label>
+                    <input type="tel" id="add-phone" required placeholder="Masalan: +998901234567">
+                </div>
+                <div class="form-group">
+                    <label>Boshlang'ich parol</label>
+                    <input type="text" id="add-password" value="123" required>
+                </div>
+                <div class="form-group">
+                    <label>Kurs nomi</label>
+                    <select id="add-course" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <option value="General English">General English</option>
+                        <option value="IELTS Preparation">IELTS Preparation</option>
+                        <option value="Kids English">Kids English</option>
+                        <option value="SAT Math & Verbal">SAT Math & Verbal</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-save full-width">O'quvchini qo'shish</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div id="edit-student-modal" class="admin-modal-overlay">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>O'quvchi ma'lumotlarini tahrirlash</h3>
+                <button class="admin-modal-close" onclick="closeEditModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="edit-student-form">
+                <input type="hidden" id="edit-username">
+                <div class="form-group">
+                    <label>To'liq ism-sharifi</label>
+                    <input type="text" id="edit-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Kurs nomi</label>
+                    <select id="edit-course" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <option value="General English">General English</option>
+                        <option value="IELTS Preparation">IELTS Preparation</option>
+                        <option value="Kids English">Kids English</option>
+                        <option value="SAT Math & Verbal">SAT Math & Verbal</option>
+                        <option value="Yo'q">Yo'q</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Davomat (%)</label>
+                    <div class="number-stepper">
+                        <button type="button" class="stepper-btn" onclick="changeAttendance(-5)">-</button>
+                        <input type="number" id="edit-attendance" value="0" min="0" max="100" required readonly style="width: 100px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <button type="button" class="stepper-btn" onclick="changeAttendance(5)">+</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>IELTS bali (agar bo'lsa)</label>
+                    <input type="text" id="edit-ielts" value="0">
+                </div>
+                <div class="form-group">
+                    <label>O'qituvchisi</label>
+                    <input type="text" id="edit-teacher" value="Yo'q">
+                </div>
+                <button type="submit" class="btn btn-save full-width">O'zgarishlarni saqlash</button>
+            </form>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
@@ -657,6 +736,37 @@
                 // Filter only students (role !== 'admin')
                 const students = users.filter(u => u.role !== 'admin');
                 currentStudents = students;
+
+                // Update So'nggi so'rovlar list dynamically
+                const recentList = document.getElementById('recent-requests-list');
+                if (recentList) {
+                    recentList.innerHTML = '';
+                    const recentStudents = [...students].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 5);
+                    if (recentStudents.length === 0) {
+                        recentList.innerHTML = '<li style="justify-content: center; color: var(--text-muted);">Mavjud emas</li>';
+                    } else {
+                        recentStudents.forEach(student => {
+                            const firstLetter = student.name ? student.name.charAt(0).toUpperCase() : 'O';
+                            const colors = ['', 'red', 'blue', 'green', 'purple'];
+                            const colorClass = colors[(student.id || 0) % colors.length];
+                            
+                            const li = document.createElement('li');
+                            li.style.cursor = 'pointer';
+                            li.innerHTML = `
+                                <div class="user-img ${colorClass}">${firstLetter}</div>
+                                <div class="user-details">
+                                    <h4>${student.name}</h4>
+                                    <p>Kurs: ${student.course || 'Tanlanmagan'}</p>
+                                </div>
+                                <span class="time" style="font-size: 0.75rem; color: #002868; font-weight: 600;">Ko'rish</span>
+                            `;
+                            li.addEventListener('click', () => {
+                                window.openEditModal(student);
+                            });
+                            recentList.appendChild(li);
+                        });
+                    }
+                }
                 
                 if (students.length === 0) {
                     usersTableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">O\'quvchilar mavjud emas</td></tr>';
@@ -825,82 +935,5 @@
         });
     </script>
 
-    <!-- Add Student Modal -->
-    <div id="add-student-modal" class="admin-modal-overlay">
-        <div class="admin-modal-content">
-            <div class="admin-modal-header">
-                <h3>Yangi o'quvchi qo'shish</h3>
-                <button class="admin-modal-close" onclick="closeAddModal()"><i class="fas fa-times"></i></button>
-            </div>
-            <form id="add-student-form">
-                <div class="form-group">
-                    <label>To'liq ism-sharifi</label>
-                    <input type="text" id="add-name" required placeholder="Masalan: Azizbek M.">
-                </div>
-                <div class="form-group">
-                    <label>Telefon raqami (tizimga kirish logini bo'ladi)</label>
-                    <input type="tel" id="add-phone" required placeholder="Masalan: +998901234567">
-                </div>
-                <div class="form-group">
-                    <label>Boshlang'ich parol</label>
-                    <input type="text" id="add-password" value="123" required>
-                </div>
-                <div class="form-group">
-                    <label>Kurs nomi</label>
-                    <select id="add-course" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
-                        <option value="General English">General English</option>
-                        <option value="IELTS Preparation">IELTS Preparation</option>
-                        <option value="Kids English">Kids English</option>
-                        <option value="SAT Math & Verbal">SAT Math & Verbal</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-save full-width">O'quvchini qo'shish</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Student Modal -->
-    <div id="edit-student-modal" class="admin-modal-overlay">
-        <div class="admin-modal-content">
-            <div class="admin-modal-header">
-                <h3>O'quvchi ma'lumotlarini tahrirlash</h3>
-                <button class="admin-modal-close" onclick="closeEditModal()"><i class="fas fa-times"></i></button>
-            </div>
-            <form id="edit-student-form">
-                <input type="hidden" id="edit-username">
-                <div class="form-group">
-                    <label>To'liq ism-sharifi</label>
-                    <input type="text" id="edit-name" required>
-                </div>
-                <div class="form-group">
-                    <label>Kurs nomi</label>
-                    <select id="edit-course" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
-                        <option value="General English">General English</option>
-                        <option value="IELTS Preparation">IELTS Preparation</option>
-                        <option value="Kids English">Kids English</option>
-                        <option value="SAT Math & Verbal">SAT Math & Verbal</option>
-                        <option value="Yo'q">Yo'q</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Davomat (%)</label>
-                    <div class="number-stepper">
-                        <button type="button" class="stepper-btn" onclick="changeAttendance(-5)">-</button>
-                        <input type="number" id="edit-attendance" value="0" min="0" max="100" required readonly style="width: 100px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
-                        <button type="button" class="stepper-btn" onclick="changeAttendance(5)">+</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>IELTS bali (agar bo'lsa)</label>
-                    <input type="text" id="edit-ielts" value="0">
-                </div>
-                <div class="form-group">
-                    <label>O'qituvchisi</label>
-                    <input type="text" id="edit-teacher" value="Yo'q">
-                </div>
-                <button type="submit" class="btn btn-save full-width">O'zgarishlarni saqlash</button>
-            </form>
-        </div>
-    </div>
 </body>
 </html>

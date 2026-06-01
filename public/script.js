@@ -639,6 +639,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Insho, tavsiyanomalar yozish va xalqaro universitetlarga hujjat topshirish bo'yicha maslahatlar"
             ],
             selectValue: "sat"
+        },
+        it: {
+            title: "IT (Dasturlash)",
+            subtitle: "Zamonaviy IT mutaxassisliklari va amaliy dasturlash",
+            icon: "fa-code",
+            duration: "6 oy",
+            lessons: "Haftada 3 marta, 2 soatdan",
+            price: "500,000 so'm / oy",
+            level: "Boshlang'ich (Hech qanday bilim talab etilmaydi)",
+            description: "IT va dasturlash kursi orqali siz zamonaviy va yuqori daromadli kasb egasiga aylanasiz. Kurs davomida veb-dasturlash (HTML, CSS, JavaScript, React), Python va ma'lumotlar bazasi bilan ishlash mukammal darajada o'rgatiladi. Darslar to'liq amaliyotga asoslangan bo'lib, o'z portfoliongizni yaratasiz.",
+            features: [
+                "Sohada katta tajribaga ega bo'lgan professional dasturchi ustozlar",
+                "Har bir talaba uchun darsdan tashqari alohida mentor yordami",
+                "Haftalik amaliy kodlash tanlovlari va real loyihalar ustida ishlash",
+                "Kurs yakunida sertifikat va ish topish bo'yicha professional tavsiyalar"
+            ],
+            selectValue: "it"
         }
     };
 
