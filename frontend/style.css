@@ -646,18 +646,108 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 
+.mobile-only {
+    display: none;
+}
+
 /* Responsive */
 @media (max-width: 991px) {
-    .hero h1 { font-size: 3rem; }
-    .nav-menu { display: none; }
-    .menu-toggle { display: block; color: var(--white); }
-    nav.sticky .menu-toggle { color: var(--primary-blue); }
+    .mobile-only {
+        display: block;
+    }
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Responsive font sizes */
+    .hero h1 { 
+        font-size: clamp(2.2rem, 8vw, 3.5rem); 
+    }
+    .hero p {
+        font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    }
+    
+    /* Navigation Menu Side Drawer */
+    .nav-menu { 
+        display: flex; 
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 285px;
+        height: 100vh;
+        background-color: var(--primary-blue);
+        padding: 100px 30px;
+        gap: 25px;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.25);
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .nav-menu li a {
+        font-size: 1.15rem;
+        color: var(--white);
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .menu-toggle { 
+        display: block; 
+        color: var(--white); 
+        z-index: 1000;
+        transition: var(--transition);
+    }
+    
+    nav.sticky .menu-toggle { 
+        color: var(--primary-blue); 
+    }
+    
+    /* Toggle active state (hamburger becomes cross) */
+    .menu-toggle.active i::before {
+        content: "\f00d"; /* fontawesome times/close icon */
+    }
+    
+    .logo a {
+        font-size: 1.3rem;
+    }
 }
 
 @media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
-    .hero-actions { flex-direction: column; }
-    .section-header h2 { font-size: 2rem; }
+    section {
+        padding: 50px 0;
+    }
+    .hero {
+        padding-top: 80px;
+    }
+    .hero-actions { 
+        flex-direction: column; 
+        gap: 12px;
+    }
+    .hero-actions .btn {
+        width: 100%;
+    }
+    .section-header h2 { 
+        font-size: 1.8rem; 
+    }
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .contact-form-box {
+        padding: 25px;
+    }
+    #chat-widget {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        bottom: 90px;
+        height: 70vh;
+    }
 }
 
 /* Course Details Modal Styles */

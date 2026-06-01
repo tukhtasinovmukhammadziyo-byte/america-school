@@ -77,10 +77,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /**
-     * Mobile Menu (Simple alert for now, can be expanded)
+     * Mobile Menu Side Drawer Toggle
      */
+    const navMenu = document.querySelector('.nav-menu');
+    
     mobileMenuBtn.addEventListener('click', () => {
-        alert("Mobil menyu hali ishlab chiqilmoqda. Iltimos, asosiy menyudan foydalaning.");
+        mobileMenuBtn.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenuBtn.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
     });
 
     /**
