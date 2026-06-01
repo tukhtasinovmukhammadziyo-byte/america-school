@@ -343,42 +343,66 @@
                 const res = await fetch(API_BASE_URL + '/api/settings');
                 const data = await res.json();
                 
-                // Populate forms
-                document.querySelector('#quick-edit-form input').value = data.title || "";
-                document.querySelectorAll('.admin-form input')[0].value = data.title || "";
-                document.querySelectorAll('.admin-form input')[1].value = data.subtitle || "";
-                document.querySelectorAll('.admin-form input')[2].value = data.btnText || "";
+                // Populate forms safely
+                const quickEditInput = document.querySelector('#quick-edit-form input');
+                if (quickEditInput) quickEditInput.value = data.title || "";
+                
+                const adminInputs = document.querySelectorAll('.admin-form input');
+                if (adminInputs && adminInputs.length >= 3) {
+                    adminInputs[0].value = data.title || "";
+                    adminInputs[1].value = data.subtitle || "";
+                    adminInputs[2].value = data.btnText || "";
+                }
                 
                 // Populate Stats inputs
-                document.getElementById('setting-students-count').value = data.statStudents || "0";
-                document.getElementById('setting-ielts-count').value = data.statIelts || "0";
-                document.getElementById('setting-teachers-count').value = data.statTeachers || "0";
-                document.getElementById('setting-success-rate').value = data.statSuccess || "0";
-                document.getElementById('setting-annual-balance').value = data.annualBalance || "0";
+                const settingStudents = document.getElementById('setting-students-count');
+                if (settingStudents) settingStudents.value = data.statStudents || "0";
+                
+                const settingIelts = document.getElementById('setting-ielts-count');
+                if (settingIelts) settingIelts.value = data.statIelts || "0";
+                
+                const settingTeachers = document.getElementById('setting-teachers-count');
+                if (settingTeachers) settingTeachers.value = data.statTeachers || "0";
+                
+                const settingSuccess = document.getElementById('setting-success-rate');
+                if (settingSuccess) settingSuccess.value = data.statSuccess || "0";
+                
+                const settingBalance = document.getElementById('setting-annual-balance');
+                if (settingBalance) settingBalance.value = data.annualBalance || "0";
 
                 // Update Dashboard Cards
-                document.getElementById('dash-students-count').innerText = data.statStudents || "0";
-                document.getElementById('dash-ielts-count').innerText = (data.statIelts || "0") + "+";
-                document.getElementById('dash-annual-balance').innerText = "$" + (data.annualBalance || "0");
+                const dashStudents = document.getElementById('dash-students-count');
+                if (dashStudents) dashStudents.innerText = data.statStudents || "0";
+                
+                const dashIelts = document.getElementById('dash-ielts-count');
+                if (dashIelts) dashIelts.innerText = (data.statIelts || "0") + "+";
+                
+                const dashBalance = document.getElementById('dash-annual-balance');
+                if (dashBalance) dashBalance.innerText = "$" + (data.annualBalance || "0");
 
                 if (data.heroBg) {
                     const bgUrl = data.heroBg.startsWith('/') ? (API_BASE_URL + data.heroBg) : data.heroBg;
-                    document.getElementById('file-preview').innerHTML = `<img src="${bgUrl}" style="max-width:100%; border-radius:10px; margin-top:10px;">`;
+                    const filePreview = document.getElementById('file-preview');
+                    if (filePreview) filePreview.innerHTML = `<img src="${bgUrl}" style="max-width:100%; border-radius:10px; margin-top:10px;">`;
                 }
             } catch (e) { console.error(e); }
         };
         loadSettings();
 
         const updateSettings = async () => {
-            const title = document.querySelector('#quick-edit-form input').value;
-            const subtitle = document.querySelectorAll('.admin-form input')[1].value;
-            const btnText = document.querySelectorAll('.admin-form input')[2].value;
+            const quickEditInput = document.querySelector('#quick-edit-form input');
+            const adminInputs = document.querySelectorAll('.admin-form input');
+            
+            const title = quickEditInput ? quickEditInput.value : (adminInputs[0]?.value || "");
+            const subtitle = adminInputs[1]?.value || "";
+            const btnText = adminInputs[2]?.value || "";
             let heroBg = document.querySelector('#file-preview img')?.src || "";
 
             // Strip out API_BASE_URL to save relative paths only
             if (heroBg.startsWith(API_BASE_URL)) {
                 heroBg = heroBg.substring(API_BASE_URL.length);
             }
+
 
             const statStudents = document.getElementById('setting-students-count').value;
             const statIelts = document.getElementById('setting-ielts-count').value;
