@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American School | Mening Profilim</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="profile-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="sticky">
+        <div class="container nav-container">
+            <div class="logo"><a href="index.html">AMERICAN<span> SCHOOL</span></a></div>
+            <div class="nav-btns">
+                <button id="logout-btn" class="btn btn-red">Chiqish</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="profile-main container">
+        <div class="profile-grid">
+            <aside class="profile-card">
+                <div class="user-avatar">
+                    <img id="p-img" src="https://ui-avatars.com/api/?name=User&background=002868&color=fff&size=128" alt="Avatar">
+                </div>
+                <h2 id="p-name">O'quvchi Ismi</h2>
+                <p id="p-phone">+998 90 000 00 00</p>
+                <div class="user-badges">
+                    <span class="badge">IELTS Student</span>
+                </div>
+                <button id="enable-notifs" class="btn" style="margin-top:20px; font-size:0.8rem; width: 100%; transition: all 0.3s; border: 1px solid #ddd;">
+                    <i class="fas fa-bell"></i> <span>Bildirishnoma</span>
+                </button>
+                <p id="notif-hint" style="font-size:0.7rem; color:#ef4444; margin-top:10px; display:none;">
+                    Brauzer tepasidagi qulf (lock) belgisini bosib, 'Notifications'ni 'Allow' qiling.
+                </p>
+            </aside>
+
+            <div class="profile-content">
+                <div class="welcome-banner">
+                    <h1>Xush kelibsiz, <span id="welcome-name">Azizbek</span>! 👋</h1>
+                    <p>Bugun darslaringiz soat 14:00 da boshlanadi.</p>
+                </div>
+
+                <div class="course-stats">
+                    <div class="stat-box">
+                        <h3>Davomat</h3>
+                        <div class="progress-bar"><div class="progress" id="p-attendance-bar" style="width: 0%;"></div></div>
+                        <span id="p-attendance-text">0%</span>
+                    </div>
+                    <div class="stat-box">
+                        <h3>O'rtacha ball</h3>
+                        <div class="score" id="p-score">0</div>
+                        <span>IELTS Mock Test</span>
+                    </div>
+                </div>
+
+                <div class="my-courses card">
+                    <h3>Mening Kurslarim</h3>
+                    <div class="course-item">
+                        <div class="c-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="c-info">
+                            <h4 id="p-course-name">Kurs biriktirilmagan</h4>
+                            <p id="p-teacher-name">O'qituvchi: Yo'q</p>
+                        </div>
+                        <div class="c-status">Faol</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insta-chat-container">
+            <div class="insta-sidebar">
+                <div class="sidebar-header">Xabarlar</div>
+                <div class="contacts-list" id="contacts-list">
+                    <!-- Contacts -->
+                </div>
+            </div>
+            <div class="insta-main-chat">
+                <div id="chat-header-info" class="chat-header" style="display: none;">
+                    <img id="active-avatar" src="" class="contact-avatar" alt="">
+                    <span id="active-name" style="font-weight: 600;">...</span>
+                </div>
+                <div id="private-messages" class="chat-messages">
+                    <div style="margin: auto; text-align: center; color: #8e8e8e;">
+                        <i class="fas fa-paper-plane" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>Suhbatni boshlash uchun kontaktni tanlang</p>
+                    </div>
+                </div>
+                <div id="chat-input-area" class="chat-input-wrapper" style="display: none;">
+                    <div class="chat-input-box">
+                        <input type="text" id="private-input" placeholder="Xabar yozing...">
+                        <button id="send-private">Yuborish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const notifySound = new Audio('notify.mp3');
+            let allUsers = [];
+
+            // Load user data dynamically from backend
+            const loadProfileData = async () => {
+                try {
+                    const res = await fetch(API_BASE_URL + `/api/users/${user.username}`);
+                    if (res.ok) {
+                        const userData = await res.json();
+                        
+                        document.getElementById('p-name').innerText = userData.name;
+                        document.getElementById('welcome-name').innerText = userData.name;
+                        document.getElementById('p-phone').innerText = userData.phone || userData.username;
+                        document.getElementById('p-img').src = `https://ui-avatars.com/api/?name=${userData.name}&background=002868&color=fff&size=128`;
+                        
+                        const attendance = userData.attendance || 0;
+                        document.getElementById('p-attendance-bar').style.width = `${attendance}%`;
+                        document.getElementById('p-attendance-text').innerText = `${attendance}%`;
+                        
+                        document.getElementById('p-score').innerText = userData.ielts || '0';
+                        
+                        document.getElementById('p-course-name').innerText = userData.course || "Kurs biriktirilmagan";
+                        document.getElementById('p-teacher-name').innerText = `O'qituvchi: ${userData.teacher || "Yo'q"}`;
+                    } else {
+                        throw new Error();
+                    }
+                } catch (e) {
+                    console.error("Profil ma'lumotlarini yuklashda xatolik:", e);
+                    // Fallback to local storage
+                    document.getElementById('p-name').innerText = user.name;
+                    document.getElementById('welcome-name').innerText = user.name;
+                    document.getElementById('p-phone').innerText = user.phone;
+                    document.getElementById('p-img').src = `https://ui-avatars.com/api/?name=${user.name}&background=002868&color=fff&size=128`;
+                }
+            };
+            loadProfileData();
+
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            });
+
+            // Notification UI
+            const notifBtn = document.getElementById('enable-notifs');
+            const notifHint = document.getElementById('notif-hint');
+            const updateNotifBtn = () => {
+                const span = notifBtn.querySelector('span');
+                if (Notification.permission === 'granted') {
+                    notifBtn.style.background = '#0095f6';
+                    notifBtn.style.color = 'white';
+                    span.innerText = 'Bildirishnoma: ON';
+                    notifHint.style.display = 'none';
+                } else if (Notification.permission === 'denied') {
+                    notifBtn.style.background = '#ff4d4d';
+                    notifBtn.style.color = 'white';
+                    span.innerText = 'Bildirishnoma: BLOK';
+                    notifHint.style.display = 'block';
+                } else {
+                    notifBtn.style.background = 'white';
+                    notifBtn.style.color = '#333';
+                    span.innerText = 'Bildirishnoma: OFF';
+                    notifHint.style.display = 'none';
+                }
+            };
+            updateNotifBtn();
+
+            notifBtn.onclick = () => {
+                Notification.requestPermission().then(perm => {
+                    updateNotifBtn();
+                    if(perm === 'granted') new Notification("Bildirishnomalar yoqildi!");
+                });
+            };
+
+            // Socket
+            const socket = io(API_BASE_URL, { transports: ['websocket', 'polling'] });
+            socket.on('connect', () => {
+                socket.emit('identify', { username: user.username });
+            });
+
+            const contactsList = document.getElementById('contacts-list');
+            const messagesDiv = document.getElementById('private-messages');
+            const headerInfo = document.getElementById('chat-header-info');
+            const inputArea = document.getElementById('chat-input-area');
+            const activeName = document.getElementById('active-name');
+            const activeAvatar = document.getElementById('active-avatar');
+            const input = document.getElementById('private-input');
+            const sendBtn = document.getElementById('send-private');
+            
+            let activeReceiver = null;
+
+            // Load Users
+            try {
+                const res = await fetch(API_BASE_URL + '/api/users');
+                allUsers = await res.json();
+                allUsers.forEach(u => {
+                    if (u.username !== user.username) {
+                        const div = document.createElement('div');
+                        div.className = 'contact-item';
+                        div.id = `contact-${u.username}`;
+                        const avatar = `https://ui-avatars.com/api/?name=${u.name}&background=random&color=fff`;
+                        div.innerHTML = `
+                            <div style="position:relative;">
+                                <img src="${avatar}" class="contact-avatar">
+                                <div class="notif-badge" style="display:none; position:absolute; top:0; right:0; width:12px; height:12px; background:#ff4d4d; border-radius:50%; border:2px solid white;"></div>
+                            </div>
+                            <div class="contact-info">
+                                <h4>${u.name}</h4>
+                                <p>${u.role === 'admin' ? 'Administrator' : 'O\'quvchi'}</p>
+                            </div>
+                        `;
+                        div.onclick = () => selectContact(u, avatar, div);
+                        contactsList.appendChild(div);
+                    }
+                });
+            } catch (e) { console.error(e); }
+
+            const selectContact = async (receiver, avatar, element) => {
+                activeReceiver = receiver;
+                headerInfo.style.display = 'flex';
+                inputArea.style.display = 'block';
+                activeName.innerText = receiver.name;
+                activeAvatar.src = avatar;
+                messagesDiv.innerHTML = '<p style="text-align:center; padding:20px; color:#8e8e8e;">Yuklanmoqda...</p>';
+                
+                const badge = element.querySelector('.notif-badge');
+                if(badge) badge.style.display = 'none';
+
+                document.querySelectorAll('.contact-item').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+
+                try {
+                    const res = await fetch(API_BASE_URL + `/api/chat/history/${user.username}/${receiver.username}`);
+                    const history = await res.json();
+                    messagesDiv.innerHTML = '';
+                    if (history.length === 0) {
+                        messagesDiv.innerHTML = '<p style="text-align:center; padding:20px; color:#8e8e8e;">Hali xabarlar yo\'q.</p>';
+                    } else {
+                        history.forEach(msg => appendMessage(msg));
+                    }
+                } catch (e) { console.error(e); }
+            };
+
+            const appendMessage = (msg) => {
+                const isMe = msg.sender === user.username;
+                const div = document.createElement('div');
+                div.className = `msg-bubble ${isMe ? 'msg-sender' : 'msg-receiver'}`;
+                div.innerHTML = `<div>${msg.text}</div><span class="msg-time">${msg.timestamp}</span>`;
+                if (messagesDiv.querySelector('p')) messagesDiv.innerHTML = '';
+                messagesDiv.appendChild(div);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            };
+
+            const sendMessage = () => {
+                const text = input.value.trim();
+                if (text && activeReceiver) {
+                    socket.emit('send_private_message', {
+                        sender: user.username,
+                        receiver: activeReceiver.username,
+                        text: text
+                    });
+                    input.value = '';
+                }
+            };
+            sendBtn.onclick = sendMessage;
+            input.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
+
+            const showToast = (senderName, text) => {
+                const toast = document.createElement('div');
+                toast.className = 'toast-notif';
+                toast.innerHTML = `
+                    <img src="https://ui-avatars.com/api/?name=${senderName}&background=random&color=fff" style="width:40px; border-radius:50%;">
+                    <div>
+                        <div style="font-weight:600; font-size:0.9rem;">${senderName}</div>
+                        <div style="font-size:0.85rem; color:#666;">${text.substring(0, 30)}...</div>
+                    </div>
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 5000);
+            };
+
+            let titleInterval = null;
+            const flashTitle = (name) => {
+                if (titleInterval) clearInterval(titleInterval);
+                let originalTitle = "American School | Mening Profilim";
+                titleInterval = setInterval(() => {
+                    document.title = document.title === originalTitle ? `(1) Xabar: ${name}` : originalTitle;
+                }, 1000);
+            };
+
+            window.onfocus = () => {
+                if (titleInterval) {
+                    clearInterval(titleInterval);
+                    document.title = "American School | Mening Profilim";
+                }
+            };
+
+            socket.on('receive_private_message', (msg) => {
+                const isMe = msg.sender === user.username;
+                const senderObj = allUsers.find(u => u.username === msg.sender);
+                const senderName = senderObj ? senderObj.name : msg.sender;
+
+                if (!isMe) {
+                    notifySound.play().catch(e => {});
+                    
+                    // Show notification regardless of current chat if window hidden
+                    // Show notification if window active but chatting with someone else
+                    const isChattingWithSender = activeReceiver && msg.sender === activeReceiver.username;
+                    
+                    if (document.hidden) {
+                        flashTitle(senderName);
+                        if (Notification.permission === 'granted') {
+                            new Notification(`Yangi xabar: ${senderName}`, { body: msg.text });
+                        }
+                        showToast(senderName, msg.text);
+                    } else if (!isChattingWithSender) {
+                        showToast(senderName, msg.text);
+                        // Add badge to contact list
+                        const contactEl = document.getElementById(`contact-${msg.sender}`);
+                        if (contactEl) contactEl.querySelector('.notif-badge').style.display = 'block';
+                    }
+                }
+
+                if (activeReceiver && (msg.sender === activeReceiver.username || isMe)) {
+                    appendMessage(msg);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

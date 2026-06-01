@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "username": "+998937812005",
+        "password": "12345678",
+        "role": "student",
+        "name": "Muhammadziyo",
+        "phone": "+998937812005",
+        "course": ""
+    },
+    {
+        "id": 0,
+        "username": "admin",
+        "password": "123",
+        "role": "admin",
+        "name": "Administrator"
+    },
+    {
+        "id": 3,
+        "username": "+9989376788888",
+        "password": "87654321",
+        "role": "student",
+        "name": "Jasur",
+        "phone": "+9989376788888",
+        "course": ""
+    }
+]

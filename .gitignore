@@ -1,0 +1,8 @@
+venv/
+data/database.db
+uploads/
+__pycache__/
+*.pyc
+.env
+.vscode/
+temp.js

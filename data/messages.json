@@ -1,0 +1,60 @@
+[
+    {
+        "id": 1,
+        "username": "+998937812005",
+        "password": "12345678",
+        "role": "student",
+        "name": "Muhammadziyo",
+        "phone": "+998937812005",
+        "course": ""
+    },
+    {
+        "room": "private_+998937812005_admin",
+        "sender": "+998937812005",
+        "receiver": "admin",
+        "text": "salom",
+        "timestamp": "15:51"
+    },
+    {
+        "room": "private_+9989376788888_+998937812005",
+        "sender": "+9989376788888",
+        "receiver": "+998937812005",
+        "text": "salom",
+        "timestamp": "15:54"
+    },
+    {
+        "room": "private_+9989376788888_+998937812005",
+        "sender": "+998937812005",
+        "receiver": "+9989376788888",
+        "text": "salom",
+        "timestamp": "15:54"
+    },
+    {
+        "room": "private_+998937812005_admin",
+        "sender": "+998937812005",
+        "receiver": "admin",
+        "text": "salom",
+        "timestamp": "15:56"
+    },
+    {
+        "room": "private_+9989376788888_+998937812005",
+        "sender": "+9989376788888",
+        "receiver": "+998937812005",
+        "text": "ухла",
+        "timestamp": "15:57"
+    },
+    {
+        "room": "private_+9989376788888_+998937812005",
+        "sender": "+998937812005",
+        "receiver": "+9989376788888",
+        "text": "salom",
+        "timestamp": "16:07"
+    },
+    {
+        "room": "private_+9989376788888_+998937812005",
+        "sender": "+9989376788888",
+        "receiver": "+998937812005",
+        "text": "yaxshimisan kecha qanday uyga vazifa berdi ustoz !",
+        "timestamp": "16:10"
+    }
+]

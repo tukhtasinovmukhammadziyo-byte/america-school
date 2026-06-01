@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American School | Kirish</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h2>AMERICAN SCHOOL</h2>
+                <p>O'quvchi profili</p>
+            </div>
+            
+            <div class="tabs">
+                <button id="login-tab" class="active">Kirish</button>
+                <button id="signup-tab">Ro'yxatdan o'tish</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label>Telefon raqamingiz</label>
+                    <input type="tel" id="login-phone" placeholder="+998 90 123 45 67" required>
+                </div>
+                <div class="form-group">
+                    <label>Parol</label>
+                    <input type="password" id="login-pass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-red full-width">Tizimga kirish</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label>To'liq ismingiz</label>
+                    <input type="text" id="signup-name" placeholder="Azizbek" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefon raqam</label>
+                    <input type="tel" id="signup-phone" placeholder="+998 90 123 45 67" required>
+                </div>
+                <div class="form-group">
+                    <label>Parol o'rnating</label>
+                    <input type="password" id="signup-pass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-blue full-width">Ro'yxatdan o'tish</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

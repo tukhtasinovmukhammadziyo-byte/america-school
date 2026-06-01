@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American School | Admin Panel</title>
+    <link rel="stylesheet" href="admin-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>AMERICAN SCHOOL</h3>
+                <p>Admin Dashboard</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active" data-target="dashboard"><i class="fas fa-home"></i> <span>Asosiy</span></a>
+                <a href="#" class="nav-link" data-target="content"><i class="fas fa-edit"></i> <span>Kontentni tahrirlash</span></a>
+                <a href="#" class="nav-link" data-target="gallery"><i class="fas fa-images"></i> <span>Galereya</span></a>
+                <a href="#" class="nav-link" data-target="users"><i class="fas fa-users"></i> <span>O'quvchilar</span></a>
+                <a href="#" class="nav-link" data-target="teachers"><i class="fas fa-chalkboard-teacher"></i> <span>O'qituvchilar</span></a>
+                <a href="#" class="nav-link" data-target="chat"><i class="fas fa-comments"></i> <span>Chat xabarlari</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Saytni ko'rish</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Qidiruv...">
+                </div>
+                <div class="user-profile">
+                    <span>Admin</span>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=002868&color=fff" alt="Admin">
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                
+                <!-- Dashboard Section (The Rich All-in-One View) -->
+                <div id="dashboard" class="tab-content active">
+                    <h1 class="page-title">Boshqaruv Paneli</h1>
+                    
+                    <!-- Stats Overview -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
+                            <div class="stat-info">
+                                <h3 id="dash-students-count">0</h3>
+                                <p>O'quvchilar</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red"><i class="fas fa-chart-line"></i></div>
+                            <div class="stat-info">
+                                <h3 id="dash-ielts-count">0</h3>
+                                <p>IELTS 7.0+</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green"><i class="fas fa-wallet"></i></div>
+                            <div class="stat-info">
+                                <h3 id="dash-annual-balance">$0</h3>
+                                <p>Yillik balans</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-grid-two">
+                        <!-- Content Management Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-pen-fancy"></i> Tezkor tahrirlash</h2>
+                            </div>
+                            <div class="card-body">
+                                <form id="quick-edit-form">
+                                    <div class="form-group">
+                                        <label>Asosiy Sarlavha</label>
+                                        <input type="text" value="Kelajagingizni Biz Bilan Quring!">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Rasm yuklash (Maksimal 30MB)</label>
+                                        <div class="upload-area" id="dropzone">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p id="upload-text">Rasmni shu yerga tashlang yoki bosing</p>
+                                        </div>
+                                        <input type="file" id="file-input" style="display: none;" accept="image/*">
+                                        <div id="file-preview" class="file-preview"></div>
+                                    </div>
+                                    <button type="button" class="btn btn-save full-width" onclick="alert('Saqlandi!')">Yangilash</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Messages Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-envelope"></i> So'nggi so'rovlar</h2>
+                            </div>
+                            <div class="card-body">
+                                <ul class="recent-list">
+                                    <li>
+                                        <div class="user-img">A</div>
+                                        <div class="user-details">
+                                            <h4>Azizbek M.</h4>
+                                            <p>IELTS kursi qachon boshlanadi?</p>
+                                        </div>
+                                        <span class="time">16:15</span>
+                                    </li>
+                                    <li>
+                                        <div class="user-img red">S</div>
+                                        <div class="user-details">
+                                            <h4>Sevinch A.</h4>
+                                            <p>Ro'yxatdan o'tdim, javob kutyapman.</p>
+                                        </div>
+                                        <span class="time">14:20</span>
+                                    </li>
+                                    <li>
+                                        <div class="user-img blue">J</div>
+                                        <div class="user-details">
+                                            <h4>Jahongir B.</h4>
+                                            <p>Speaking club soati o'zgarmadimi?</p>
+                                        </div>
+                                        <span class="time">Kecha</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Management Section -->
+                <div id="content" class="tab-content">
+                    <h1 class="page-title">Sayt kontentini boshqarish</h1>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-desktop"></i> Asosiy sahifa (Hero Section)</h2>
+                        </div>
+                        <div class="card-body">
+                            <form class="admin-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Bosh sarlavha</label>
+                                        <input type="text" value="Kelajagingizni Biz Bilan Quring!">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tag sarlavha</label>
+                                        <input type="text" value="Zamonaviy ta'lim va professional ustozlar bilan birga maqsadlaringizga erishing.">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tugma matni</label>
+                                    <input type="text" value="Kurslarni ko'rish">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-chart-bar"></i> Statistikalar va Balans</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>O'quvchilar soni (Asosiy sahifa)</label>
+                                    <input type="number" id="setting-students-count" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>IELTS 7.0+ natijalari (Asosiy sahifa)</label>
+                                    <input type="number" id="setting-ielts-count" value="0">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>O'qituvchilar soni (Asosiy sahifa)</label>
+                                    <input type="number" id="setting-teachers-count" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Muvaffaqiyat ko'rsatkichi % (Asosiy sahifa)</label>
+                                    <input type="number" id="setting-success-rate" value="0" min="0" max="100">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Yillik Balans (USD)</label>
+                                <input type="number" id="setting-annual-balance" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-save">Barchasini saqlash</button>
+                    </div>
+                </div>
+
+                <!-- Gallery Section -->
+                <div id="gallery" class="tab-content">
+                    <h1 class="page-title">Galereya</h1>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>Bu yerda barcha yuklangan rasmlar ro'yxati bo'ladi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other sections... -->
+                
+                <div id="users" class="tab-content">
+                    <div class="header-with-actions">
+                        <h1 class="page-title">O'quvchilar boshqaruvi</h1>
+                        <button class="btn btn-blue" onclick="addStudent()"><i class="fas fa-plus"></i> Yangi o'quvchi</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-body" style="overflow-x: auto;">
+                            <table class="admin-table" id="users-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ism</th>
+                                        <th>Telefon / Login</th>
+                                        <th>Kurs</th>
+                                        <th>Davomat</th>
+                                        <th>IELTS</th>
+                                        <th>O'qituvchi</th>
+                                        <th>Amallar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic rows will appear here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="teachers" class="tab-content">
+                    <div class="header-with-actions">
+                        <h1 class="page-title">O'qituvchilar boshqaruvi</h1>
+                        <button class="btn btn-save" onclick="addTeacher()"><i class="fas fa-plus"></i> Yangi qo'shish</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="search-box full-width">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="teacher-search" placeholder="O'qituvchini qidirish..." oninput="searchTeachers()">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="admin-table" id="teachers-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ism-sharif</th>
+                                        <th>Yo'nalish</th>
+                                        <th>Tajriba</th>
+                                        <th>Amallar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="chat" class="tab-content">
+                    <h1 class="page-title">Muloqot markazi (Live Chat)</h1>
+                    <div class="admin-chat-container">
+                        <!-- Chat Contacts Sidebar -->
+                        <div class="admin-chat-sidebar">
+                            <div class="chat-search">
+                                <i class="fas fa-search" style="color: var(--text-muted); margin-left: 10px;"></i>
+                                <input type="text" id="admin-chat-search" placeholder="Qidirish..." style="border: none; background: none; outline: none; padding: 8px 5px; width: 100%; font-size: 0.85rem;">
+                            </div>
+                            <div class="admin-chat-list" id="admin-chat-list">
+                                <!-- Dynamically loaded: Global Chat first, then students -->
+                            </div>
+                        </div>
+                        <!-- Chat Area -->
+                        <div class="admin-chat-main">
+                            <div class="admin-chat-header" id="admin-chat-header">
+                                <div class="admin-chat-active-info">
+                                    <h4 id="admin-active-chat-title">Umumiy Chat</h4>
+                                    <p id="admin-active-chat-subtitle" style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Barcha foydalanuvchilar bilan umumiy muloqot</p>
+                                </div>
+                            </div>
+                            <div class="admin-chat-messages" id="admin-chat-messages">
+                                <!-- Chat bubbles -->
+                            </div>
+                            <div class="admin-chat-input-area">
+                                <input type="text" id="admin-chat-input" placeholder="Xabar yozing...">
+                                <button id="admin-chat-send" class="btn btn-save" style="padding: 10px 20px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">Yuborish <i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="config.js"></script>
+    <script>
+        // Check Admin Auth
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser || currentUser.role !== 'admin') {
+            alert("Ushbu sahifaga faqat admin kirishi mumkin!");
+            window.location.href = 'login.html';
+        }
+
+        // Tab switching logic
+        const navLinks = document.querySelectorAll('.nav-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.getAttribute('data-target');
+
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === target) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Settings Management
+        const loadSettings = async () => {
+            try {
+                const res = await fetch(API_BASE_URL + '/api/settings');
+                const data = await res.json();
+                
+                // Populate forms
+                document.querySelector('#quick-edit-form input').value = data.title || "";
+                document.querySelectorAll('.admin-form input')[0].value = data.title || "";
+                document.querySelectorAll('.admin-form input')[1].value = data.subtitle || "";
+                document.querySelectorAll('.admin-form input')[2].value = data.btnText || "";
+                
+                // Populate Stats inputs
+                document.getElementById('setting-students-count').value = data.statStudents || "0";
+                document.getElementById('setting-ielts-count').value = data.statIelts || "0";
+                document.getElementById('setting-teachers-count').value = data.statTeachers || "0";
+                document.getElementById('setting-success-rate').value = data.statSuccess || "0";
+                document.getElementById('setting-annual-balance').value = data.annualBalance || "0";
+
+                // Update Dashboard Cards
+                document.getElementById('dash-students-count').innerText = data.statStudents || "0";
+                document.getElementById('dash-ielts-count').innerText = (data.statIelts || "0") + "+";
+                document.getElementById('dash-annual-balance').innerText = "$" + (data.annualBalance || "0");
+
+                if (data.heroBg) {
+                    const bgUrl = data.heroBg.startsWith('/') ? (API_BASE_URL + data.heroBg) : data.heroBg;
+                    document.getElementById('file-preview').innerHTML = `<img src="${bgUrl}" style="max-width:100%; border-radius:10px; margin-top:10px;">`;
+                }
+            } catch (e) { console.error(e); }
+        };
+        loadSettings();
+
+        const updateSettings = async () => {
+            const title = document.querySelector('#quick-edit-form input').value;
+            const subtitle = document.querySelectorAll('.admin-form input')[1].value;
+            const btnText = document.querySelectorAll('.admin-form input')[2].value;
+            let heroBg = document.querySelector('#file-preview img')?.src || "";
+
+            // Strip out API_BASE_URL to save relative paths only
+            if (heroBg.startsWith(API_BASE_URL)) {
+                heroBg = heroBg.substring(API_BASE_URL.length);
+            }
+
+            const statStudents = document.getElementById('setting-students-count').value;
+            const statIelts = document.getElementById('setting-ielts-count').value;
+            const statTeachers = document.getElementById('setting-teachers-count').value;
+            const statSuccess = document.getElementById('setting-success-rate').value;
+            const annualBalance = document.getElementById('setting-annual-balance').value;
+
+            const res = await fetch(API_BASE_URL + '/api/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    title, subtitle, btnText, heroBg, 
+                    statStudents, statIelts, statTeachers, statSuccess, annualBalance 
+                })
+            });
+            if (res.ok) {
+                alert("Muvaffaqiyatli saqlandi!");
+                loadSettings(); // Reload to refresh dashboard
+            }
+        };
+
+        // Image Upload
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        const uploadText = document.getElementById('upload-text');
+
+        if (dropzone && fileInput) {
+            dropzone.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    uploadText.innerText = "Yuklanmoqda...";
+                    
+                    const res = await fetch(API_BASE_URL + '/api/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        document.getElementById('file-preview').innerHTML = `<img src="${data.url}" style="max-width:100%; border-radius:10px; margin-top:10px;">`;
+                        uploadText.innerText = "Tayyor! Saqlashni unutmang.";
+                        alert("Rasm yuklandi!");
+                    }
+                }
+            });
+        }
+
+        // Chat Management
+        const socket = io(API_BASE_URL);
+        
+        socket.emit('identify', { username: 'admin' });
+
+        const chatListDiv = document.getElementById('admin-chat-list');
+        const messagesDiv = document.getElementById('admin-chat-messages');
+        const chatInput = document.getElementById('admin-chat-input');
+        const chatSendBtn = document.getElementById('admin-chat-send');
+        const chatTitle = document.getElementById('admin-active-chat-title');
+        const chatSubtitle = document.getElementById('admin-active-chat-subtitle');
+        const chatSearch = document.getElementById('admin-chat-search');
+
+        let activeChatType = 'global'; // 'global' or 'private'
+        let activeStudent = null; // { username, name }
+        let chatUsers = []; // List of all students
+        let chatNotifications = {}; // username -> boolean
+
+        const initChat = async () => {
+            try {
+                const res = await fetch(API_BASE_URL + '/api/users');
+                if (!res.ok) return;
+                const users = await res.json();
+                chatUsers = users.filter(u => u.role !== 'admin');
+                renderChatList();
+                loadChatHistory();
+            } catch (e) {
+                console.error("Failed to load chat users:", e);
+            }
+        };
+
+        const renderChatList = () => {
+            if (!chatListDiv) return;
+            chatListDiv.innerHTML = '';
+
+            // 1. Add Global Chat item
+            const globalActive = activeChatType === 'global' ? 'active' : '';
+            const globalBadgeDisplay = chatNotifications['global'] ? 'block' : 'none';
+            const globalDiv = document.createElement('div');
+            globalDiv.className = `admin-chat-item ${globalActive}`;
+            globalDiv.innerHTML = `
+                <div class="admin-chat-avatar"><i class="fas fa-globe"></i></div>
+                <div class="admin-chat-item-info">
+                    <h4>Umumiy Chat</h4>
+                    <p>Ommaviy guruh suhbati</p>
+                </div>
+                <div class="admin-chat-badge" style="display: ${globalBadgeDisplay};"></div>
+            `;
+            globalDiv.onclick = () => selectGlobalChat();
+            chatListDiv.appendChild(globalDiv);
+
+            // 2. Add Students
+            const searchTerm = chatSearch.value.toLowerCase();
+            chatUsers.forEach(student => {
+                if (searchTerm && !student.name.toLowerCase().includes(searchTerm)) return;
+
+                const isSelected = activeChatType === 'private' && activeStudent && activeStudent.username === student.username;
+                const activeClass = isSelected ? 'active' : '';
+                const badgeDisplay = chatNotifications[student.username] ? 'block' : 'none';
+                
+                const studentDiv = document.createElement('div');
+                studentDiv.className = `admin-chat-item ${activeClass}`;
+                studentDiv.innerHTML = `
+                    <div class="admin-chat-avatar"><i class="fas fa-user"></i></div>
+                    <div class="admin-chat-item-info">
+                        <h4>${student.name}</h4>
+                        <p>${student.course || "Kurs biriktirilmagan"}</p>
+                    </div>
+                    <div class="admin-chat-badge" style="display: ${badgeDisplay};"></div>
+                `;
+                studentDiv.onclick = () => selectPrivateChat(student);
+                chatListDiv.appendChild(studentDiv);
+            });
+        };
+
+        const selectGlobalChat = () => {
+            activeChatType = 'global';
+            activeStudent = null;
+            chatNotifications['global'] = false;
+            chatTitle.innerText = "Umumiy Chat";
+            chatSubtitle.innerText = "Barcha foydalanuvchilar bilan umumiy muloqot";
+            renderChatList();
+            loadChatHistory();
+        };
+
+        const selectPrivateChat = (student) => {
+            activeChatType = 'private';
+            activeStudent = student;
+            chatNotifications[student.username] = false;
+            chatTitle.innerText = student.name;
+            chatSubtitle.innerText = `Shaxsiy chat • ${student.phone || student.username}`;
+            renderChatList();
+            loadChatHistory();
+        };
+
+        const loadChatHistory = async () => {
+            if (!messagesDiv) return;
+            messagesDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Yuklanmoqda...</p>';
+
+            try {
+                let url = API_BASE_URL + '/api/chat/history';
+                if (activeChatType === 'private' && activeStudent) {
+                    url = API_BASE_URL + `/api/chat/history/admin/${activeStudent.username}`;
+                }
+
+                const res = await fetch(url);
+                if (!res.ok) return;
+                const history = await res.json();
+                
+                messagesDiv.innerHTML = '';
+                if (history.length === 0) {
+                    messagesDiv.innerHTML = '<p style="text-align:center; padding:20px; color:var(--text-muted);">Hali xabarlar yo\'q.</p>';
+                    return;
+                }
+
+                const msgs = activeChatType === 'global' ? history.slice().reverse() : history;
+                msgs.forEach(msg => {
+                    appendMessageBubble(msg);
+                });
+            } catch (e) {
+                console.error("Failed to load history:", e);
+            }
+        };
+
+        const appendMessageBubble = (msg) => {
+            if (!messagesDiv) return;
+            const isMe = msg.user === 'Admin' || msg.sender === 'admin';
+            const senderName = isMe ? 'Admin' : (msg.user || msg.sender);
+            const text = msg.text;
+            const time = msg.timestamp;
+
+            const bubble = document.createElement('div');
+            bubble.className = `admin-msg-bubble ${isMe ? 'admin-msg-sender' : 'admin-msg-receiver'}`;
+            bubble.innerHTML = `
+                <div class="admin-msg-user" style="font-size:0.75rem; font-weight:600; margin-bottom:2px; opacity:0.8;">${senderName}</div>
+                <div>${text}</div>
+                <span class="admin-msg-time" style="font-size:0.65rem; opacity:0.6; display:block; text-align:right; margin-top:3px;">${time}</span>
+            `;
+            
+            if (messagesDiv.querySelector('p')) {
+                messagesDiv.innerHTML = '';
+            }
+            messagesDiv.appendChild(bubble);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        };
+
+        const sendMessage = () => {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            if (activeChatType === 'global') {
+                socket.emit('send_message', {
+                    user: 'Admin',
+                    text: text,
+                    role: 'admin'
+                });
+            } else if (activeChatType === 'private' && activeStudent) {
+                socket.emit('send_private_message', {
+                    sender: 'admin',
+                    receiver: activeStudent.username,
+                    text: text
+                });
+            }
+            chatInput.value = '';
+        };
+
+        chatSendBtn.onclick = sendMessage;
+        chatInput.onkeypress = (e) => {
+            if (e.key === 'Enter') sendMessage();
+        };
+
+        chatSearch.oninput = renderChatList;
+
+        socket.on('receive_message', (msg) => {
+            if (activeChatType === 'global') {
+                appendMessageBubble(msg);
+            } else {
+                chatNotifications['global'] = true;
+                const notifySound = new Audio('notify.mp3');
+                notifySound.play().catch(e => {});
+                renderChatList();
+            }
+        });
+
+        socket.on('receive_private_message', (msg) => {
+            const isMe = msg.sender === 'admin';
+            if (isMe) {
+                if (activeChatType === 'private' && activeStudent && activeStudent.username === msg.receiver) {
+                    appendMessageBubble(msg);
+                }
+            } else {
+                if (activeChatType === 'private' && activeStudent && activeStudent.username === msg.sender) {
+                    appendMessageBubble(msg);
+                } else {
+                    chatNotifications[msg.sender] = true;
+                    const notifySound = new Audio('notify.mp3');
+                    notifySound.play().catch(e => {});
+                    renderChatList();
+                }
+            }
+        });
+
+        // Attach save logic to buttons
+        document.querySelectorAll('.btn-save').forEach(btn => {
+            btn.onclick = (e) => {
+                e.preventDefault();
+                updateSettings();
+            };
+        });
+
+        // ==========================================
+        // STUDENT MANAGEMENT DYNAMIC SCRIPT LOGIC
+        // ==========================================
+
+        let currentStudents = [];
+
+        window.loadStudents = async () => {
+            const usersTableBody = document.querySelector('#users-table tbody');
+            if (!usersTableBody) return;
+            
+            try {
+                const res = await fetch(API_BASE_URL + '/api/users?t=' + new Date().getTime());
+                if (!res.ok) return;
+                const users = await res.json();
+                
+                usersTableBody.innerHTML = '';
+                // Filter only students (role !== 'admin')
+                const students = users.filter(u => u.role !== 'admin');
+                currentStudents = students;
+                
+                if (students.length === 0) {
+                    usersTableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">O\'quvchilar mavjud emas</td></tr>';
+                    return;
+                }
+                
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.style.cursor = 'pointer';
+                    row.addEventListener('click', (e) => {
+                        const editBtn = e.target.closest('.btn-edit');
+                        const deleteBtn = e.target.closest('.btn-delete');
+                        if (editBtn) {
+                            e.stopPropagation();
+                            window.openEditModal(student);
+                        } else if (deleteBtn) {
+                            e.stopPropagation();
+                            window.deleteStudent(student.username);
+                        } else if (!e.target.closest('.action-btns')) {
+                            window.openEditModal(student);
+                        }
+                    });
+                    
+                    row.innerHTML = `
+                        <td><strong>${student.name}</strong></td>
+                        <td>${student.phone || student.username}</td>
+                        <td>${student.course || 'Yo\'q'}</td>
+                        <td><span class="badge" style="background:#f1f5f9; color:#002868; font-weight:600;">${student.attendance || 0}%</span></td>
+                        <td><span class="badge" style="background:#f1f5f9; color:#BF0A30; font-weight:600;">${student.ielts || '0'}</span></td>
+                        <td>${student.teacher || 'Yo\'q'}</td>
+                        <td class="action-btns">
+                            <button class="btn-icon btn-edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon btn-delete"><i class="fas fa-trash"></i></button>
+                        </td>
+                    `;
+                    usersTableBody.appendChild(row);
+                });
+            } catch (e) {
+                console.error("O'quvchilarni yuklashda xatolik:", e);
+            }
+        };
+
+        // Edit Modal functions
+        window.openEditModal = (student) => {
+            document.getElementById('edit-username').value = student.username;
+            document.getElementById('edit-name').value = student.name;
+            document.getElementById('edit-course').value = student.course || 'Yo\'q';
+            document.getElementById('edit-attendance').value = student.attendance || 0;
+            document.getElementById('edit-ielts').value = student.ielts || '0';
+            document.getElementById('edit-teacher').value = student.teacher || 'Yo\'q';
+            
+            document.getElementById('edit-student-modal').style.display = 'flex';
+        };
+
+        window.closeEditModal = () => {
+            document.getElementById('edit-student-modal').style.display = 'none';
+        };
+
+        window.changeAttendance = (val) => {
+            const input = document.getElementById('edit-attendance');
+            let current = parseInt(input.value) || 0;
+            current += val;
+            if (current < 0) current = 0;
+            if (current > 100) current = 100;
+            input.value = current;
+        };
+
+        document.getElementById('edit-student-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('edit-username').value;
+            const name = document.getElementById('edit-name').value;
+            const course = document.getElementById('edit-course').value;
+            const attendance = parseInt(document.getElementById('edit-attendance').value) || 0;
+            const ielts = document.getElementById('edit-ielts').value;
+            const teacher = document.getElementById('edit-teacher').value;
+            
+            try {
+                const res = await fetch(API_BASE_URL + '/api/users/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, name, course, attendance, ielts, teacher })
+                });
+                const data = await res.json();
+                alert(data.msg);
+                if (res.ok) {
+                    closeEditModal();
+                    loadStudents();
+                }
+            } catch (err) {
+                alert("Server bilan bog'lanishda xatolik!");
+            }
+        };
+
+        // Add Modal functions
+        window.addStudent = () => {
+            document.getElementById('add-student-form').reset();
+            document.getElementById('add-password').value = '123';
+            document.getElementById('add-student-modal').style.display = 'flex';
+        };
+
+        window.closeAddModal = () => {
+            document.getElementById('add-student-modal').style.display = 'none';
+        };
+
+        document.getElementById('add-student-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('add-name').value;
+            const phone = document.getElementById('add-phone').value;
+            const course = document.getElementById('add-course').value;
+            const password = document.getElementById('add-password').value;
+            
+            try {
+                const res = await fetch(API_BASE_URL + '/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, phone, username: phone, password, course })
+                });
+                const data = await res.json();
+                alert(data.msg);
+                if (res.ok) {
+                    closeAddModal();
+                    loadStudents();
+                }
+            } catch (err) {
+                alert("Server bilan bog'lanishda xatolik!");
+            }
+        };
+
+        // Delete function
+        window.deleteStudent = async (username) => {
+            if (!confirm("Haqiqatan ham ushbu o'quvchini o'chirmoqchisiz?")) return;
+            const encodedUsername = encodeURIComponent(username);
+            try {
+                let res = await fetch(API_BASE_URL + `/api/users/delete/${encodedUsername}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!res.ok) {
+                    res = await fetch(API_BASE_URL + `/api/users/delete/${encodedUsername}`, {
+                        method: 'POST'
+                    });
+                }
+                
+                const data = await res.json();
+                alert(data.msg);
+                if (res.ok) {
+                    window.loadStudents();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Server bilan bog'lanishda xatolik!");
+            }
+        };
+
+        // Load students on start
+        window.loadStudents();
+
+        // Reload user list on tab switch
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const target = link.getAttribute('data-target');
+                if (target === 'users') {
+                    window.loadStudents();
+                }
+            });
+        });
+    </script>
+
+    <!-- Add Student Modal -->
+    <div id="add-student-modal" class="admin-modal-overlay">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Yangi o'quvchi qo'shish</h3>
+                <button class="admin-modal-close" onclick="closeAddModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="add-student-form">
+                <div class="form-group">
+                    <label>To'liq ism-sharifi</label>
+                    <input type="text" id="add-name" required placeholder="Masalan: Azizbek M.">
+                </div>
+                <div class="form-group">
+                    <label>Telefon raqami (tizimga kirish logini bo'ladi)</label>
+                    <input type="tel" id="add-phone" required placeholder="Masalan: +998901234567">
+                </div>
+                <div class="form-group">
+                    <label>Boshlang'ich parol</label>
+                    <input type="text" id="add-password" value="123" required>
+                </div>
+                <div class="form-group">
+                    <label>Kurs nomi</label>
+                    <select id="add-course" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <option value="General English">General English</option>
+                        <option value="IELTS Preparation">IELTS Preparation</option>
+                        <option value="Kids English">Kids English</option>
+                        <option value="SAT Math & Verbal">SAT Math & Verbal</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-save full-width">O'quvchini qo'shish</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div id="edit-student-modal" class="admin-modal-overlay">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>O'quvchi ma'lumotlarini tahrirlash</h3>
+                <button class="admin-modal-close" onclick="closeEditModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="edit-student-form">
+                <input type="hidden" id="edit-username">
+                <div class="form-group">
+                    <label>To'liq ism-sharifi</label>
+                    <input type="text" id="edit-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Kurs nomi</label>
+                    <select id="edit-course" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <option value="General English">General English</option>
+                        <option value="IELTS Preparation">IELTS Preparation</option>
+                        <option value="Kids English">Kids English</option>
+                        <option value="SAT Math & Verbal">SAT Math & Verbal</option>
+                        <option value="Yo'q">Yo'q</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Davomat (%)</label>
+                    <div class="number-stepper">
+                        <button type="button" class="stepper-btn" onclick="changeAttendance(-5)">-</button>
+                        <input type="number" id="edit-attendance" value="0" min="0" max="100" required readonly style="width: 100px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <button type="button" class="stepper-btn" onclick="changeAttendance(5)">+</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>IELTS bali (agar bo'lsa)</label>
+                    <input type="text" id="edit-ielts" value="0">
+                </div>
+                <div class="form-group">
+                    <label>O'qituvchisi</label>
+                    <input type="text" id="edit-teacher" value="Yo'q">
+                </div>
+                <button type="submit" class="btn btn-save full-width">O'zgarishlarni saqlash</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
