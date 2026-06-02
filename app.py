@@ -203,15 +203,22 @@ def login():
 def signup():
     data = request.json
     conn = get_db_connection()
+    
+    # Avval foydalanuvchi mavjudligini tekshiramiz (SQLite va Postgres uchun universal)
+    existing_user = conn.execute('SELECT username FROM users WHERE username = ?', (data.get('username'),)).fetchone()
+    if existing_user:
+        conn.close()
+        return jsonify({"msg": "Bu raqam band!"}), 400
+        
     try:
         conn.execute('INSERT INTO users (username, password, name, phone, course) VALUES (?, ?, ?, ?, ?)',
                      (data['username'], data.get('password', '123'), data['name'], data['phone'], data.get('course', '')))
         conn.commit()
         conn.close()
         return jsonify({"msg": "Muvaffaqiyatli ro'yxatdan o'tdingiz!"})
-    except sqlite3.IntegrityError:
+    except Exception as e:
         conn.close()
-        return jsonify({"msg": "Bu raqam band!"}), 400
+        return jsonify({"msg": "Xatolik yuz berdi!", "detail": str(e)}), 500
 
 @app.route('/api/users', methods=['GET'])
 def get_users():
