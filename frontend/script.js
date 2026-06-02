@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const heroSection = document.querySelector('.hero');
             if (settings.heroBg && heroSection) {
-                heroSection.style.backgroundImage = `linear-gradient(rgba(0, 40, 104, 0.7), rgba(0, 40, 104, 0.7)), url(${settings.heroBg})`;
+                const bgUrl = settings.heroBg.startsWith('/') ? (API_BASE_URL + settings.heroBg) : settings.heroBg;
+                heroSection.style.backgroundImage = `linear-gradient(rgba(0, 40, 104, 0.7), rgba(0, 40, 104, 0.7)), url(${bgUrl})`;
             }
             
             // Update titles if elements exist
